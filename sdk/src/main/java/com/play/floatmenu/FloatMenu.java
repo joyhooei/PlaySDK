@@ -2,10 +2,7 @@ package com.play.floatmenu;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
-import android.content.res.Resources;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -20,10 +17,9 @@ import android.view.animation.Animation.AnimationListener;
 import android.view.animation.ScaleAnimation;
 import android.widget.FrameLayout;
 
-import com.play.common.Config;
 import com.play.sdk.MobUser;
+import com.play.sdk.MobUserManager;
 import com.play.util.ConfigUtil;
-import com.play.util.DialogUtil;
 import com.play.util.ResourceUtil;
 
 
@@ -42,22 +38,6 @@ public class FloatMenu extends FrameLayout {
 	private FloatMenuTextView accountView;
 	private FloatMenuTextView homePageView;
 
-	private BaseOnClickListener onClickListener = new BaseOnClickListener() {
-		@Override
-		public void onBaseClick(View v) {
-			SDKMenuManager.getInstance(null).hideMenuView();
-			if (v.getId() == ResourceUtil.getId("tvAccount")) {
-				SDKMenuManager.getInstance(null).openAccountDialog(0);
-			} else if (v.getId() == ResourceUtil.getId("tvHomePage")) {
-				SdkViewOpenHelper.openHomeWebDialog();
-			} else if (v.getId() == ResourceUtil.getId("tvFB")) {
-				SdkViewOpenHelper.openFBWebDialog();
-			} else if (v.getId() == ResourceUtil.getId("tvService")) {
-				// EventTracker.btnClickEvent(4);
-				SdkViewOpenHelper.openServiceDialog();
-			}
-		}
-	};
 
 	public void setServiceNum(int num) {
 		if (num > 0) {
@@ -87,28 +67,26 @@ public class FloatMenu extends FrameLayout {
 	}
 
 	private void init(Context context) {
-		LayoutInflater.from(context).inflate(ResourceUtil.getLayoutId("vsgm_tony_float_menu"), this);
+		LayoutInflater.from(context).inflate(ResourceUtil.getLayoutId("tobin_float_menu"), this);
 		mainView = (FloatMenuClipBgView) findViewById(ResourceUtil.getId("menu_main_view"));
 
 		try {
-			mainView.setBackgroundResource(ResourceUtil.getDrawableId("vsgm_tony_okgame_float_menu_bg"));
+			mainView.setBackgroundResource(ResourceUtil.getDrawableId("tobin_float_menu_bg"));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
 		menuScroll = (FloatMenuHorizontalScrollView) findViewById(ResourceUtil.getId("menu_scroll"));
 		accountView = (FloatMenuTextView) findViewById(ResourceUtil.getId("tvAccount"));
-		accountView.setOnClickListener(onClickListener);
-		accountView.setVisibility(isAccountAvaiable = ConfigUtil.getViewVisible(ConfigUtil.MENU_ACCOUNT));
+		accountView.setVisibility(View.VISIBLE);
+//		accountView.setVisibility(isAccountAvaiable = ConfigUtil.getViewVisible(ConfigUtil.MENU_ACCOUNT));
 		homePageView = (FloatMenuTextView) findViewById(ResourceUtil.getId("tvHomePage"));
-		homePageView.setOnClickListener(onClickListener);
-		homePageView.setVisibility(isHomePageAvaiable = ConfigUtil.getViewVisible(ConfigUtil.MENU_HOMEPAGE));
+//		homePageView.setVisibility((isHomePageAvaiable = ConfigUtil.getViewVisible(ConfigUtil.MENU_HOMEPAGE)) ? View.VISIBLE:View.GONE);
+		homePageView.setVisibility(View.VISIBLE);
 		fbView = (FloatMenuTextView) findViewById(ResourceUtil.getId("tvFB"));
-		fbView.setOnClickListener(onClickListener);
-		fbView.setVisibility(isFBAvaiable = ConfigUtil.getViewVisible(ConfigUtil.MENU_FACEBOOK));
+		fbView.setVisibility(View.VISIBLE);
 		serviceView = (FloatMenuTextView) findViewById(ResourceUtil.getId("tvService"));
-		serviceView.setOnClickListener(onClickListener);
-		serviceView.setVisibility(isServiceAvaiable = ConfigUtil.getViewVisible(ConfigUtil.MENU_SERVICES));
+		serviceView.setVisibility(View.VISIBLE);
 	}
 
 	@Override
@@ -184,9 +162,9 @@ public class FloatMenu extends FrameLayout {
 	public void updateMenuIcon(int visible) {
 		MobUserManager mobUserManager = MobUserManager.getInstance();
 		MobUser user = mobUserManager.getCurrentUser();
-		isFBAvaiable = ConfigUtil.getViewVisible(ConfigUtil.MENU_FACEBOOK);
-		isAccountAvaiable = ConfigUtil.getViewVisible(ConfigUtil.MENU_ACCOUNT);
-		isHomePageAvaiable = ConfigUtil.getViewVisible(ConfigUtil.MENU_HOMEPAGE);
+//		isFBAvaiable = ConfigUtil.getViewVisible(ConfigUtil.MENU_FACEBOOK);
+//		isAccountAvaiable = ConfigUtil.getViewVisible(ConfigUtil.MENU_ACCOUNT);
+//		isHomePageAvaiable = ConfigUtil.getViewVisible(ConfigUtil.MENU_HOMEPAGE);
 		if (isAccountAvaiable == View.VISIBLE) {
 			View view = findViewById(ResourceUtil.getId("tvAccount"));
 			if (user != null) {
@@ -250,25 +228,6 @@ public class FloatMenu extends FrameLayout {
 			}
 		});
 		startAnimation(a1);
-	}
-
-	private void dialog() {
-		Resources res = mActivity.getResources();
-		String done = res.getString(ResourceUtil.getStringId("vsgm_tony_btn_done"));
-		String cancel = res.getString(ResourceUtil.getStringId("vsgm_tony_btn_cancel"));
-		String title = Config.sdkTitle;
-		String msg = res.getString(ResourceUtil.getStringId("vsgm_tony_float_dialog_upgrade_account"));
-
-		AlertDialog.Builder builder = DialogUtil.showDialog(mActivity, title, msg);
-		builder.setNegativeButton(cancel, null);
-		builder.setPositiveButton(done, new DialogInterface.OnClickListener() {
-			@Override
-			public void onClick(DialogInterface dialog, int which) {
-
-			}
-		});
-
-		builder.show();
 	}
 
 }
