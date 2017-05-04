@@ -24,7 +24,6 @@ import com.play.util.ConfigUtil;
 import com.play.util.DensityUtil;
 import com.play.util.SPUtil;
 
-@SuppressWarnings("deprecation")
 public class SDKMenuManager {
 	public static final String MENU_TAG = "PlayMenu";
 	private static SDKMenuManager instance;
@@ -48,9 +47,6 @@ public class SDKMenuManager {
 	private SensorManager sensorManager;
 
 	private boolean isFloatHideEnable = false;
-
-	public SDKMenuManager() {
-	}
 
 	private SDKMenuManager(Activity activity) {
 		this.mActivity = activity;
@@ -85,8 +81,7 @@ public class SDKMenuManager {
 			} catch (Exception e) {
 			}
 		}
-		decor.addView(mContainer, new LayoutParams(LayoutParams.MATCH_PARENT,
-				LayoutParams.MATCH_PARENT));
+		decor.addView(mContainer, new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
 		if (mFloatIcon != null && !mFloatIcon.isMenuShowing()) {
 			mFloatIcon.startViewAlpha();
 		}
@@ -112,16 +107,6 @@ public class SDKMenuManager {
 		return instance;
 	}
 
-	public void openAccountDialog(final int from) {
-		mActivity.runOnUiThread(new Runnable() {
-			@Override
-			public void run() {
-				if (mFloatIcon != null)
-					mFloatIcon.setMenuShowing(false);
-//				new SdkAccountDialog(mActivity).show();
-			}
-		});
-	}
 
 	private void createIconView() {
 		if (mFloatIcon != null)
@@ -192,7 +177,7 @@ public class SDKMenuManager {
 			mMenuParams = new AbsoluteLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT, 0, 0);
 		}
 		mContainer.addView(mFloatMenu, mMenuParams);
-		mFloatMenu.setVisibility(View.INVISIBLE);
+		mFloatMenu.setVisibility(View.VISIBLE);
 	}
 
 	public void removeMenuView() {
@@ -348,37 +333,36 @@ public class SDKMenuManager {
 		deleteBgView.setVisibility(View.INVISIBLE);
 		if (mDeleteView.isDelete()) {
 			mFloatIcon.resetPosition();
-			SdkMenuHideDialog dialog = new SdkMenuHideDialog.Builder(mActivity)
-					.setNegativeButton(new OnClickListener() {
-						@Override
-						public void onClick(DialogInterface dialog, int which) {
-							dialog.dismiss();
-							mFloatIcon.setVisibility(View.VISIBLE);
-							if (mDeleteView != null)
-								mDeleteView.updateDeteleStatus(false);
-							mFloatIcon.startViewAlpha();
-						}
-					}).setPositiveButton(new OnClickListener() {
-						@Override
-						public void onClick(DialogInterface dialog, int which) {
-							dialog.dismiss();
-							mFloatIcon.resetViewAlpha();
-							mFloatIcon.setVisibility(View.GONE);
-							mFloatIcon.setTouchable(false);
-							isViewShowing = false;
-							if (mDeleteView != null)
-								mDeleteView.updateDeteleStatus(false);
-						}
-					}).setOnCancelListener(new OnCancelListener() {
-						@Override
-						public void onCancel(DialogInterface arg0) {
-							mFloatIcon.setVisibility(View.VISIBLE);
-							if (mDeleteView != null)
-								mDeleteView.updateDeteleStatus(false);
-							mFloatIcon.startViewAlpha();
-						}
-					}).create();
-			dialog.show();
+//			SdkMenuHideDialog dialog = new SdkMenuHideDialog.Builder(mActivity).setNegativeButton(new OnClickListener() {
+//						@Override
+//						public void onClick(DialogInterface dialog, int which) {
+//							dialog.dismiss();
+//							mFloatIcon.setVisibility(View.VISIBLE);
+//							if (mDeleteView != null)
+//								mDeleteView.updateDeteleStatus(false);
+//							mFloatIcon.startViewAlpha();
+//						}
+//					}).setPositiveButton(new OnClickListener() {
+//						@Override
+//						public void onClick(DialogInterface dialog, int which) {
+//							dialog.dismiss();
+//							mFloatIcon.resetViewAlpha();
+//							mFloatIcon.setVisibility(View.GONE);
+//							mFloatIcon.setTouchable(false);
+//							isViewShowing = false;
+//							if (mDeleteView != null)
+//								mDeleteView.updateDeteleStatus(false);
+//						}
+//					}).setOnCancelListener(new OnCancelListener() {
+//						@Override
+//						public void onCancel(DialogInterface arg0) {
+//							mFloatIcon.setVisibility(View.VISIBLE);
+//							if (mDeleteView != null)
+//								mDeleteView.updateDeteleStatus(false);
+//							mFloatIcon.startViewAlpha();
+//						}
+//					}).create();
+//			dialog.show();
 			mFloatIcon.setVisibility(View.INVISIBLE);
 			return true;
 		} else {
@@ -423,8 +407,6 @@ public class SDKMenuManager {
 		return instance != null && mFloatIcon != null && mFloatIcon.getVisibility() == View.VISIBLE;
 	}
 
-
-	@SuppressWarnings("unused")
 	private boolean isViewShowing = true;
 
 	public void setFloatIconEnable(boolean enable) {
@@ -433,7 +415,6 @@ public class SDKMenuManager {
 		}
 	}
 
-	@SuppressWarnings("unused")
 	private void hideAnim() {
 		mFloatIcon.resetViewAlpha();
 		mFloatIcon.setTouchable(false);
@@ -457,7 +438,6 @@ public class SDKMenuManager {
 		mFloatIcon.startAnimation(a);
 	}
 
-	@SuppressWarnings("unused")
 	private void showAnim() {
 		mFloatIcon.resetViewAlpha();
 		AnimationSet as = new AnimationSet(true);
@@ -465,15 +445,12 @@ public class SDKMenuManager {
 		a.setDuration(300);
 		a.setFillAfter(true);
 		as.addAnimation(a);
-		ScaleAnimation a1 = new ScaleAnimation(0f, 1.5f, 0f, 1.5f, Animation.RELATIVE_TO_SELF, 0.5f,
-				Animation.RELATIVE_TO_SELF, 0.5f);
+		ScaleAnimation a1 = new ScaleAnimation(0f, 1.5f, 0f, 1.5f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
 		a1.setDuration(150);
-		ScaleAnimation a2 = new ScaleAnimation(1.5f, 0.8f, 1.5f, 0.8f, Animation.RELATIVE_TO_SELF, 0.5f,
-				Animation.RELATIVE_TO_SELF, 0.5f);
+		ScaleAnimation a2 = new ScaleAnimation(1.5f, 0.8f, 1.5f, 0.8f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
 		a2.setDuration(150);
 		a2.setStartOffset(150);
-		ScaleAnimation a3 = new ScaleAnimation(0.8f, 1f, 0.8f, 1f, Animation.RELATIVE_TO_SELF, 0.5f,
-				Animation.RELATIVE_TO_SELF, 0.5f);
+		ScaleAnimation a3 = new ScaleAnimation(0.8f, 1f, 0.8f, 1f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
 		a3.setDuration(150);
 		a3.setFillAfter(true);
 		a3.setStartOffset(300);

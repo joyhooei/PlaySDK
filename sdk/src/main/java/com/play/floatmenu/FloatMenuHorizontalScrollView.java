@@ -30,8 +30,7 @@ public class FloatMenuHorizontalScrollView extends HorizontalScrollView {
 	}
 
 	@SuppressLint("NewApi")
-	public FloatMenuHorizontalScrollView(Context context, AttributeSet attrs,
-			int defStyleAttr, int defStyleRes) {
+	public FloatMenuHorizontalScrollView(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
 		super(context, attrs, defStyleAttr, defStyleRes);
 		setScroller(context);
 	}
@@ -58,6 +57,7 @@ public class FloatMenuHorizontalScrollView extends HorizontalScrollView {
 			field.setAccessible(true);
 			mIsBeingDragged = field.getBoolean(this);
 		} catch (Exception e) {
+			e.printStackTrace();
 		}
 		if (mScroller.isFinished() && !mIsBeingDragged && !isInTouch) {
 			if (listener != null && mScroller.isFinished()) {

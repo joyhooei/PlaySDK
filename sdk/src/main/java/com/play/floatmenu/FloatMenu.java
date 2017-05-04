@@ -19,9 +19,7 @@ import android.widget.FrameLayout;
 
 import com.play.sdk.MobUser;
 import com.play.sdk.MobUserManager;
-import com.play.util.ConfigUtil;
-import com.play.util.ResourceUtil;
-
+import com.play.sdk.R;
 
 public class FloatMenu extends FrameLayout {
 	private Activity mActivity;
@@ -52,8 +50,7 @@ public class FloatMenu extends FrameLayout {
 	}
 
 	public boolean isRedPoint() {
-		return accountView.isRedPointShowing() || homePageView.isRedPointShowing() || fbView.isRedPointShowing()
-				|| serviceView.isRedPointShowing();
+		return accountView.isRedPointShowing() || homePageView.isRedPointShowing() || fbView.isRedPointShowing() || serviceView.isRedPointShowing();
 	}
 
 	@SuppressLint("NewApi")
@@ -67,25 +64,22 @@ public class FloatMenu extends FrameLayout {
 	}
 
 	private void init(Context context) {
-		LayoutInflater.from(context).inflate(ResourceUtil.getLayoutId("tobin_float_menu"), this);
-		mainView = (FloatMenuClipBgView) findViewById(ResourceUtil.getId("menu_main_view"));
-
+		LayoutInflater.from(context).inflate(R.layout.tobin_float_menu, this);
+		mainView = (FloatMenuClipBgView) findViewById(R.id.menu_main_view);
 		try {
-			mainView.setBackgroundResource(ResourceUtil.getDrawableId("tobin_float_menu_bg"));
+			mainView.setBackgroundResource(R.drawable.tobin_float_menu_bg);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
-		menuScroll = (FloatMenuHorizontalScrollView) findViewById(ResourceUtil.getId("menu_scroll"));
-		accountView = (FloatMenuTextView) findViewById(ResourceUtil.getId("tvAccount"));
+		menuScroll = (FloatMenuHorizontalScrollView) findViewById(R.id.menu_scroll);
+		accountView = (FloatMenuTextView) findViewById(R.id.tvAccount);
 		accountView.setVisibility(View.VISIBLE);
-//		accountView.setVisibility(isAccountAvaiable = ConfigUtil.getViewVisible(ConfigUtil.MENU_ACCOUNT));
-		homePageView = (FloatMenuTextView) findViewById(ResourceUtil.getId("tvHomePage"));
-//		homePageView.setVisibility((isHomePageAvaiable = ConfigUtil.getViewVisible(ConfigUtil.MENU_HOMEPAGE)) ? View.VISIBLE:View.GONE);
+		homePageView = (FloatMenuTextView) findViewById(R.id.tvHomePage);
 		homePageView.setVisibility(View.VISIBLE);
-		fbView = (FloatMenuTextView) findViewById(ResourceUtil.getId("tvFB"));
+		fbView = (FloatMenuTextView) findViewById(R.id.tvFB);
 		fbView.setVisibility(View.VISIBLE);
-		serviceView = (FloatMenuTextView) findViewById(ResourceUtil.getId("tvService"));
+		serviceView = (FloatMenuTextView) findViewById(R.id.tvService);
 		serviceView.setVisibility(View.VISIBLE);
 	}
 
@@ -140,18 +134,22 @@ public class FloatMenu extends FrameLayout {
 	private Path p;
 
 	public void setItemVisible(int visible) {
-		if (isAccountAvaiable == View.VISIBLE) {
-			findViewById(ResourceUtil.getId("tvAccount")).setVisibility(visible);
-		}
-		if (isHomePageAvaiable == View.VISIBLE) {
-			findViewById(ResourceUtil.getId("tvHomePage")).setVisibility(visible);
-		}
-		if (isServiceAvaiable == View.VISIBLE) {
-			findViewById(ResourceUtil.getId("tvService")).setVisibility(visible);
-		}
-		if (isFBAvaiable == View.VISIBLE) {
-			findViewById(ResourceUtil.getId("tvFB")).setVisibility(visible);
-		}
+//		if (isAccountAvaiable == View.VISIBLE) {
+//			findViewById(R.id.tvAccount).setVisibility(visible);
+//		}
+//		if (isHomePageAvaiable == View.VISIBLE) {
+//			findViewById(R.id.tvHomePage).setVisibility(visible);
+//		}
+//		if (isServiceAvaiable == View.VISIBLE) {
+//			findViewById(R.id.tvService).setVisibility(visible);
+//		}
+//		if (isFBAvaiable == View.VISIBLE) {
+//			findViewById(R.id.tvFB).setVisibility(visible);
+//		}
+		findViewById(R.id.tvAccount).setVisibility(visible);
+		findViewById(R.id.tvHomePage).setVisibility(visible);
+		findViewById(R.id.tvService).setVisibility(visible);
+		findViewById(R.id.tvFB).setVisibility(visible);
 		updateMenuIcon(visible);
 	}
 
@@ -162,20 +160,15 @@ public class FloatMenu extends FrameLayout {
 	public void updateMenuIcon(int visible) {
 		MobUserManager mobUserManager = MobUserManager.getInstance();
 		MobUser user = mobUserManager.getCurrentUser();
-//		isFBAvaiable = ConfigUtil.getViewVisible(ConfigUtil.MENU_FACEBOOK);
-//		isAccountAvaiable = ConfigUtil.getViewVisible(ConfigUtil.MENU_ACCOUNT);
-//		isHomePageAvaiable = ConfigUtil.getViewVisible(ConfigUtil.MENU_HOMEPAGE);
-		if (isAccountAvaiable == View.VISIBLE) {
-			View view = findViewById(ResourceUtil.getId("tvAccount"));
-			if (user != null) {
-				if (visible != 99)
-					view.setVisibility(visible);
-			} else {
-				view.setVisibility(View.GONE);
-			}
+
+		View view = findViewById(R.id.tvAccount);
+		if (user != null) {
+			if (visible != 99)
+				view.setVisibility(visible);
 		} else {
-			findViewById(ResourceUtil.getId("tvAccount")).setVisibility(View.GONE);
+			view.setVisibility(View.GONE);
 		}
+
 		measure(MeasureSpec.UNSPECIFIED, MeasureSpec.UNSPECIFIED);
 		invalidate();
 	}

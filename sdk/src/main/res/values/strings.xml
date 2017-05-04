@@ -1,6 +1,8 @@
 <resources>
     <string name="app_name">SDK</string>
 
+    <string name="tobin_string_btn_done">Confirm</string>
+
     <string name="tobin_string_account">账号</string>
     <string name="tobin_string_facebook">FB</string>
     <string name="tobin_string_home">主页</string>

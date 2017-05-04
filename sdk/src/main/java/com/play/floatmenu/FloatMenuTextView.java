@@ -13,8 +13,7 @@ import android.view.View;
 import android.widget.TextView;
 
 public class FloatMenuTextView extends TextView {
-	public FloatMenuTextView(Context context, AttributeSet attrs,
-			int defStyleAttr) {
+	public FloatMenuTextView(Context context, AttributeSet attrs, int defStyleAttr) {
 		super(context, attrs, defStyleAttr);
 	}
 
@@ -94,8 +93,17 @@ public class FloatMenuTextView extends TextView {
 		if (isRedPointShowing()) {
 			if (paint == null)
 				paint = new Paint();
+			// 设置画笔颜色
 			paint.setColor(Color.RED);
+			// 设置画笔所画的图形是空心还是实心
 			paint.setStyle(Paint.Style.FILL);
+			/**
+			 * 绘制一个圆
+			 * float cx:表示圆心的x坐标
+			 * float cy:表示圆心的y坐标
+			 * float radius:表示圆的半径
+			 * Paint paint:表示我们所用的画笔
+			 */
 			canvas.drawCircle(getWidth() - radius, radius, radius, paint);
 		}
 		if (num > 0) {

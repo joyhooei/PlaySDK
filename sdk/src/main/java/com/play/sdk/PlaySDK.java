@@ -4,9 +4,11 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.res.Resources;
 
 import com.play.common.Config;
+import com.play.floatmenu.SDKMenuManager;
 import com.play.util.DialogUtil;
 import com.play.util.ResourceUtil;
 
@@ -50,12 +52,18 @@ public class PlaySDK {
         Config.isShowLog = isShowLog;
         Config.clientId = clientId;
         checkSdkCallMethod();
+
+        MobUserManager.initUserManager(activity, isShowLog);
+        SDKMenuManager.getInstance(activity);
+        SDKMenuManager.getInstance(activity).initParentView(null);
+        SDKMenuManager.getInstance(activity).popupMenu();
+//        SDKMenuManager.getInstance(null).updateMenuViewLoginToday();
+
     }
 
     public void sdkLogin() {
         if (activity.isFinishing())
             return;
-
 
     }
 
@@ -70,12 +78,22 @@ public class PlaySDK {
         alertMessage("SDK.initSDK必须在主Activity的onCreate中调用", false);
     }
 
+    public void onResume() {
+    }
+
+    public void onPause() {
+    }
+
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+    }
+
     private void alertMessage(String msg, boolean cancel) {
         Resources res = activity.getResources();
         String title = Config.sdkTitle;
         AlertDialog.Builder builder = DialogUtil.showDialog(activity, title, msg);
         if (cancel) {
-            String done = res.getString(ResourceUtil.getStringId("vsgm_tony_btn_done"));
+            String done = res.getString(ResourceUtil.getStringId("tobin_string_btn_done"));
             builder.setPositiveButton(done, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {

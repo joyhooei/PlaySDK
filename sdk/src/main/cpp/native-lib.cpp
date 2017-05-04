@@ -62,7 +62,7 @@ jstring crypt(JNIEnv *env, jclass type, jstring before) {
 
 extern "C"
 jstring
-Java_com_gamater_sdk_Encrypt_encrypt(JNIEnv *env, jclass type, jobject context, jobjectArray params) {
+Java_com_play_sdk_Encrypt_encrypt(JNIEnv *env, jclass type, jobject context, jobjectArray params) {
     jsize len = env->GetArrayLength(params);
     char* dest = (char*)malloc(1024*1024);
     int i=0;

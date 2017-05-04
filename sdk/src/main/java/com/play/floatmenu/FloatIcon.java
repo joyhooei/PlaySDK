@@ -3,12 +3,11 @@ package com.play.floatmenu;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.play.sdk.R;
 import com.play.util.AppUtil;
 import com.play.util.DensityUtil;
-import com.play.util.ResourceUtil;
 import com.play.util.SPUtil;
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.graphics.Color;
 import android.graphics.Point;
@@ -28,7 +27,6 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-@SuppressWarnings("deprecation")
 public class FloatIcon extends FrameLayout {
 	private static final int FADE_OUT_TIME = 3000;
 	private static final int ICON_ALPHE = 125;
@@ -46,33 +44,25 @@ public class FloatIcon extends FrameLayout {
 	private boolean isMenuShowing = false;
 
 	private Point lastPoint;
-
 	private TextView mNoteNum;
 	private int mNoteCount = 0;
-
 	private boolean isTouchable = true;
-
 	private boolean isRedPoint;
 
 	public boolean isTouchable() {
 		return isTouchable;
 	}
-
 	public void setTouchable(boolean i) {
 		isTouchable = i;
 	}
-
 	public boolean isLeft() {
 		return this.isLeft;
 	}
-
 	public boolean isMenuShowing() {
 		return this.isMenuShowing;
 	}
-
 	public void setMenuShowing(boolean isShowing) {
 		this.isMenuShowing = isShowing;
-		mIconImage.setImageResource(ResourceUtil.getDrawableId("vsgm_tony_hema_float_icon"));
 	}
 
 	public Point getLastPosition() {
@@ -89,7 +79,6 @@ public class FloatIcon extends FrameLayout {
 
 	private ImageView mIconImage;
 
-	@SuppressLint("NewApi")
 	public FloatIcon(Activity activity, int menuHeight) {
 		super(activity);
 		if (Build.VERSION.SDK_INT >= 11) {
@@ -99,12 +88,12 @@ public class FloatIcon extends FrameLayout {
 		mIconImage = new ImageView(activity);
 		int p = DensityUtil.dip2px(activity, 2);
 
-		mIconImage.setImageResource(ResourceUtil.getDrawableId("vsgm_tony_okgame_float_icon"));
+		mIconImage.setImageResource(R.drawable.tobin_float_icon);
 
 		mIconImage.setPadding(p, p, p, p);
 		addView(mIconImage, new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
 		mNoteNum = new TextView(activity);
-		mNoteNum.setBackgroundResource(ResourceUtil.getDrawableId("vsgm_tony_float_num_bg"));
+		mNoteNum.setBackgroundResource(R.drawable.tobin_float_num_bg);
 		mNoteNum.setTextColor(Color.WHITE);
 		mNoteNum.setGravity(Gravity.CENTER);
 		mNoteNum.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 10);
@@ -220,7 +209,7 @@ public class FloatIcon extends FrameLayout {
 			int ay = (int) event.getRawY() - firstY;
 			if (Math.abs(ax) < 10 && Math.abs(ay) < 10)
 				break;
-			isMoveing = true;
+			isMoving = true;
 			lastX = (int) event.getRawX();
 			lastY = (int) event.getRawY();
 			mParams.x = x - deltaX;
@@ -230,7 +219,7 @@ public class FloatIcon extends FrameLayout {
 			mMenuManager.updateDeteleView();
 			break;
 		case MotionEvent.ACTION_UP:
-			isMoveing = false;
+			isMoving = false;
 			checkParams();
 			if (Math.abs(firstX - lastX) == 0 && Math.abs(firstY - lastY) == 0) {
 				mMenuManager.updateMenuView();
@@ -255,12 +244,12 @@ public class FloatIcon extends FrameLayout {
 		return true;
 	}
 
-	private boolean isMoveing;
+	private boolean isMoving;
 
 	private Runnable fadeOut = new Runnable() {
 		@Override
 		public void run() {
-			if (!isMenuShowing && !isMoveing)
+			if (!isMenuShowing && !isMoving)
 				alphaAnim();
 		}
 	};
@@ -303,7 +292,7 @@ public class FloatIcon extends FrameLayout {
 	private Runnable rotate = new Runnable() {
 		@Override
 		public void run() {
-			if (!isMenuShowing && !isMoveing)
+			if (!isMenuShowing && !isMoving)
 				rotateAnim();
 		}
 	};
@@ -311,8 +300,7 @@ public class FloatIcon extends FrameLayout {
 	private void rotateAnim() {
 		AnimationSet as = new AnimationSet(true);
 		float rotate = isLeft ? 45 : -45;
-		RotateAnimation a = new RotateAnimation(0, rotate, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF,
-				0.5f);
+		RotateAnimation a = new RotateAnimation(0, rotate, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
 		a.setDuration(300);
 		as.addAnimation(a);
 		float tx = isLeft ? -0.5f : 0.5f;
@@ -322,24 +310,11 @@ public class FloatIcon extends FrameLayout {
 		AlphaAnimation a2 = new AlphaAnimation(1f, ICON_ALPHE / 255f);
 		a2.setStartOffset(ROTATE_OUT_TIME / 2);
 		a2.setDuration(300);
-		// a2.setFillAfter(true);
+
 		as.addAnimation(a2);
 		as.addAnimation(a1);
 		as.setFillAfter(true);
-		// as.setAnimationListener(new AnimationListener() {
-		// @Override
-		// public void onAnimationStart(Animation animation) {
-		// }
-		//
-		// @Override
-		// public void onAnimationRepeat(Animation animation) {
-		// }
-		//
-		// @Override
-		// public void onAnimationEnd(Animation animation) {
-		// // postDelayed(fadeOut, ROTATE_OUT_TIME / 2);
-		// }
-		// });
+
 		startAnimation(as);
 	}
 }

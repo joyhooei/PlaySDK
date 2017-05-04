@@ -1,5 +1,6 @@
 package com.play.floatmenu;
 
+import com.play.sdk.R;
 import com.play.util.ResourceUtil;
 
 import android.content.Context;
@@ -23,10 +24,11 @@ public class DeleteView extends ImageView {
 	public void updateDeteleStatus(boolean isReadyToDelete) {
 		if (isReadyToDelete) {
 			// setBackgroundColor(Color.argb(88, 255, 0, 0));
-			setBackgroundResource(ResourceUtil.getDrawableId("tobin_menu_delete_ready_bg"));
+//			setBackgroundResource(ResourceUtil.getDrawableId("tobin_menu_delete_ready_bg"));
+			setBackgroundResource(R.drawable.tobin_menu_delete_ready_bg);
 		} else {
 			// setBackgroundColor(Color.argb(88, 100, 100, 100));
-			setBackgroundResource(ResourceUtil.getDrawableId("tobin_menu_delete_normal_bg"));
+			setBackgroundResource(R.drawable.tobin_menu_delete_normal_bg);
 		}
 		isDelete = isReadyToDelete;
 	}

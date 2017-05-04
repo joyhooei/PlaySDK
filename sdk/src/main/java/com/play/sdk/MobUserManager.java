@@ -31,9 +31,6 @@ public class MobUserManager {
 	public static final String CONFIG_KEY_TWITTER_ID = "twitter-key";
 	public static final String CONFIG_KEY_TWITTER_KEY = "twitter-secret";
 
-	// public static final String CONFIG_KEY_WX_ID = "wechat_id";
-	// public static final String CONFIG_KEY_WX_KEY = "wechat_key";
-
 	private static MobUserManager m_instance;
 	private DeviceInfo deviceInfo;
 	private MobUser currentUser;
@@ -263,21 +260,6 @@ public class MobUserManager {
 		}
 		return null;
 	}
-
-
-
-	public boolean isShowLog() {
-		return Config.isShowLog;
-	}
-
-	public void setShowLog(boolean isShowLog) {
-		Config.isShowLog = isShowLog;
-	}
-
-
-
-
-
 
 	public void destroy() {
 		m_instance = null;
