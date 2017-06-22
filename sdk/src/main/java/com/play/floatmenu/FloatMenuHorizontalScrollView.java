@@ -23,8 +23,7 @@ public class FloatMenuHorizontalScrollView extends HorizontalScrollView {
 		setScroller(context);
 	}
 
-	public FloatMenuHorizontalScrollView(Context context, AttributeSet attrs,
-			int defStyleAttr) {
+	public FloatMenuHorizontalScrollView(Context context, AttributeSet attrs, int defStyleAttr) {
 		super(context, attrs, defStyleAttr);
 		setScroller(context);
 	}

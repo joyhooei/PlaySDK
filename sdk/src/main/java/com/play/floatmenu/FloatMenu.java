@@ -25,11 +25,6 @@ public class FloatMenu extends FrameLayout {
 	private Activity mActivity;
 	private FloatMenuClipBgView mainView;
 
-	private int isAccountAvaiable;
-	private int isHomePageAvaiable;
-	private int isServiceAvaiable;
-	private int isFBAvaiable;
-
 	private FloatMenuHorizontalScrollView menuScroll;
 	private FloatMenuTextView fbView;
 	private FloatMenuTextView serviceView;
@@ -43,14 +38,6 @@ public class FloatMenu extends FrameLayout {
 		} else {
 			serviceView.setNum(0);
 		}
-	}
-
-	public int getNoteNum() {
-		return accountView.getNum() + homePageView.getNum() + fbView.getNum() + serviceView.getNum();
-	}
-
-	public boolean isRedPoint() {
-		return accountView.isRedPointShowing() || homePageView.isRedPointShowing() || fbView.isRedPointShowing() || serviceView.isRedPointShowing();
 	}
 
 	@SuppressLint("NewApi")
@@ -134,18 +121,7 @@ public class FloatMenu extends FrameLayout {
 	private Path p;
 
 	public void setItemVisible(int visible) {
-//		if (isAccountAvaiable == View.VISIBLE) {
-//			findViewById(R.id.tvAccount).setVisibility(visible);
-//		}
-//		if (isHomePageAvaiable == View.VISIBLE) {
-//			findViewById(R.id.tvHomePage).setVisibility(visible);
-//		}
-//		if (isServiceAvaiable == View.VISIBLE) {
-//			findViewById(R.id.tvService).setVisibility(visible);
-//		}
-//		if (isFBAvaiable == View.VISIBLE) {
-//			findViewById(R.id.tvFB).setVisibility(visible);
-//		}
+
 		findViewById(R.id.tvAccount).setVisibility(visible);
 		findViewById(R.id.tvHomePage).setVisibility(visible);
 		findViewById(R.id.tvService).setVisibility(visible);
@@ -162,14 +138,15 @@ public class FloatMenu extends FrameLayout {
 		MobUser user = mobUserManager.getCurrentUser();
 
 		View view = findViewById(R.id.tvAccount);
-		if (user != null) {
-			if (visible != 99)
-				view.setVisibility(visible);
-		} else {
-			view.setVisibility(View.GONE);
-		}
-
+//		if (user != null) {
+//			if (visible != 99)
+//				view.setVisibility(visible);
+//		} else {
+//			view.setVisibility(View.GONE);
+//		}
+		view.setVisibility(View.GONE);
 		measure(MeasureSpec.UNSPECIFIED, MeasureSpec.UNSPECIFIED);
+		// 刷新View
 		invalidate();
 	}
 

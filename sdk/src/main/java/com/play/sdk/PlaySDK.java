@@ -57,7 +57,7 @@ public class PlaySDK {
         SDKMenuManager.getInstance(activity);
         SDKMenuManager.getInstance(activity).initParentView(null);
         SDKMenuManager.getInstance(activity).popupMenu();
-//        SDKMenuManager.getInstance(null).updateMenuViewLoginToday();
+        SDKMenuManager.getInstance(null).updateMenuViewLoginToday();
 
     }
 
@@ -79,6 +79,7 @@ public class PlaySDK {
     }
 
     public void onResume() {
+
     }
 
     public void onPause() {

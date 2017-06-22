@@ -81,13 +81,17 @@ public class FloatIcon extends FrameLayout {
 
 	public FloatIcon(Activity activity, int menuHeight) {
 		super(activity);
-		if (Build.VERSION.SDK_INT >= 11) {
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+			// 从3.0开始，安卓开始支持硬件加速.
+			// 对于已经在系统设置项中开启硬件加速，但是硬件加速会给应用程序带来问题的情况，
+			// 可以使用如下方法为应用程序View级别取消硬件加速
 			setLayerType(View.LAYER_TYPE_SOFTWARE, null);
 		}
 		mViewWidth = menuHeight;
 		mIconImage = new ImageView(activity);
 		int p = DensityUtil.dip2px(activity, 2);
 
+		// 悬浮按钮设置图片
 		mIconImage.setImageResource(R.drawable.tobin_float_icon);
 
 		mIconImage.setPadding(p, p, p, p);
@@ -104,7 +108,7 @@ public class FloatIcon extends FrameLayout {
 		params.gravity = Gravity.TOP | Gravity.RIGHT;
 		addView(mNoteNum, params);
 		setNoteNumVisible(false);
-
+		// 获取屏幕信息
 		DisplayMetrics dm = activity.getResources().getDisplayMetrics();
 		mScreenWidth = dm.widthPixels;
 		mMenuManager = SDKMenuManager.getInstance(activity);
@@ -255,7 +259,12 @@ public class FloatIcon extends FrameLayout {
 	};
 
 	private void setViewAlpha(int alpha) {
-		mIconImage.setAlpha(alpha);
+		if(Build.VERSION.SDK_INT >= 16){
+			// 设置透明度
+            mIconImage.setImageAlpha(alpha);
+		}else if(Build.VERSION.SDK_INT < 16 && Build.VERSION.SDK_INT >= 14){
+            mIconImage.setAlpha((float)alpha);
+		}
 		mNoteNum.getBackground().setAlpha(alpha);
 		mNoteNum.setTextColor(Color.argb(alpha, 255, 255, 255));
 	}
@@ -298,15 +307,39 @@ public class FloatIcon extends FrameLayout {
 	};
 
 	private void rotateAnim() {
+        // AnimationSet提供了一个把多个动画组合成一个组合的机制，并可设置组中动画的时序关系，如同时播放，顺序播放等
 		AnimationSet as = new AnimationSet(true);
 		float rotate = isLeft ? 45 : -45;
+		/**
+		 * 旋转变化动画类
+		 * fromDegrees	为动画起始时的旋转角度
+		 * toDegrees	为动画旋转到的角度
+		 * pivotXType	为动画在X轴相对于物件位置类型，X轴的伸缩模式，可以取值为ABSOLUTE、RELATIVE_TO_SELF、RELATIVE_TO_PARENT。
+		 * pivotXValue	为动画相对于物件的X坐标的开始位置
+		 * pivotXType	为动画在Y轴相对于物件位置类型，Y轴的伸缩模式，可以取值为ABSOLUTE、RELATIVE_TO_SELF、RELATIVE_TO_PARENT。
+		 * pivotYValue	为动画相对于物件的Y坐标的开始位置
+		 */
 		RotateAnimation a = new RotateAnimation(0, rotate, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
+		// 设置时间持续时间
 		a.setDuration(300);
 		as.addAnimation(a);
 		float tx = isLeft ? -0.5f : 0.5f;
+		/**
+		 * 位移动画
+		 * fromXDelta	为动画起始时 X坐标上的移动位置
+		 * toXDelta		为动画结束时 X坐标上的移动位置
+		 * fromYDelta	为动画起始时Y坐标上的移动位置
+		 * toYDelta		为动画结束时Y坐标上的移动位置
+		 */
 		TranslateAnimation a1 = new TranslateAnimation(Animation.RELATIVE_TO_SELF, 0f, Animation.RELATIVE_TO_SELF, tx,
 				Animation.RELATIVE_TO_SELF, 0f, Animation.RELATIVE_TO_SELF, 0f);
 		a1.setDuration(300);
+		/**
+		 * 渐变动画（淡入淡出）
+		 * 第一个参数fromAlpha为 动画开始时候透明度
+		 * 第二个参数toAlpha为 动画结束时候透明度
+		 * AlphaAnimation(float fromAlpha, float toAlpha)
+		 */
 		AlphaAnimation a2 = new AlphaAnimation(1f, ICON_ALPHE / 255f);
 		a2.setStartOffset(ROTATE_OUT_TIME / 2);
 		a2.setDuration(300);

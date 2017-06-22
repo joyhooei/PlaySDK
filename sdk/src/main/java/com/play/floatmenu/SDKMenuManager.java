@@ -1,12 +1,8 @@
 package com.play.floatmenu;
 
 import android.app.Activity;
-import android.content.DialogInterface;
-import android.content.DialogInterface.OnCancelListener;
-import android.content.DialogInterface.OnClickListener;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
-import android.hardware.SensorManager;
 import android.os.Handler;
 import android.util.DisplayMetrics;
 import android.view.View;
@@ -19,7 +15,6 @@ import android.view.animation.AnimationSet;
 import android.view.animation.ScaleAnimation;
 import android.widget.AbsoluteLayout;
 
-import com.play.dialog.SdkMenuHideDialog;
 import com.play.util.ConfigUtil;
 import com.play.util.DensityUtil;
 import com.play.util.SPUtil;
@@ -44,9 +39,7 @@ public class SDKMenuManager {
 
 	private AbsoluteLayout mContainer;
 
-	private SensorManager sensorManager;
-
-	private boolean isFloatHideEnable = false;
+	private boolean isFloatHideEnable = true;
 
 	private SDKMenuManager(Activity activity) {
 		this.mActivity = activity;
@@ -136,7 +129,9 @@ public class SDKMenuManager {
 		mIconParams = mFloatIcon.getParams();
 		mContainer.addView(mFloatIcon, mIconParams);
 		setViewPosition(mFloatIcon, mIconParams.x, mIconParams.y);
+		// 刷新View
 		mFloatIcon.invalidate();
+
 		mFloatIcon.startViewAlpha();
 	}
 
@@ -212,7 +207,7 @@ public class SDKMenuManager {
 		AbsoluteLayout.LayoutParams deleteBgParams = new AbsoluteLayout.LayoutParams(mScreenWidth, DensityUtil.dip2px(mActivity, 35), 0, getHeight() - DensityUtil.dip2px(mActivity, 35));
 
 		mContainer.addView(deleteBgView, deleteBgParams);
-		deleteBgView.setVisibility(View.INVISIBLE);
+		deleteBgView.setVisibility(View.VISIBLE);
 	}
 
 	public void removeDeleteView() {
@@ -301,7 +296,7 @@ public class SDKMenuManager {
 				setViewPosition(mFloatIcon, mIconParams.x, mIconParams.y);
 			}
 		} else {
-			mFloatMenu.updateMenuIcon(View.INVISIBLE);
+			mFloatMenu.updateMenuIcon(View.GONE);
 			mFloatMenu.setVisibility(View.VISIBLE);
 			mFloatIcon.setNoteNumVisible(false);
 			if (mFloatIcon.isLeft()) {

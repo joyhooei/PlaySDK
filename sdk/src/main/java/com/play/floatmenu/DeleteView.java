@@ -6,6 +6,7 @@ import com.play.util.ResourceUtil;
 import android.content.Context;
 import android.widget.ImageView;
 
+
 public class DeleteView extends ImageView {
 	private boolean isDelete;
 
